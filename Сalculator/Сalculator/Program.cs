@@ -1,26 +1,73 @@
 ﻿
-double a = 0;
-double b = 0;
-double result;
+double firstNumber = 0;
+double secondNumber = 0;
+string? operation;
+double result = 0;
 string? repeat = "YES";
 
+double Addition(double firstNumber, double secondNumber)
+{
+    return firstNumber + secondNumber;
+}
+
+double Difference(double firstNumber, double secondNumber)
+{
+    return firstNumber - secondNumber;
+}
+
+double Сomposition(double firstNumber, double secondNumber)
+{
+    return firstNumber * secondNumber;
+}
+
+double Division(double firstNumber, double secondNumber)
+{
+    if (secondNumber == 0)
+    {
+        throw new DivideByZeroException();
+    }
+    return firstNumber / secondNumber;
+}
+
+double Factorial(double firstNumber)
+{
+    int factorial = 1;
+    for (int i = 2; i <= firstNumber; i++)
+    {
+        factorial = factorial * i;
+    }
+    return factorial;
+}
+
+double Power(double firstNumber, double secondNumber)
+{
+    return Math.Pow(firstNumber, secondNumber);
+}
+
 Console.ResetColor();
-Console.WriteLine("Добро пожаловать в калькулятор.\nДоступные операции:\n-Сложение(+)\n-Вычитание(-)\n-Умножение(*)\n-Деление(:)\n-Возведение в степень(^)");
+Console.WriteLine("Добро пожаловать в калькулятор.\nДоступные операции:");
+Console.WriteLine("-Сложение(+)");
+Console.WriteLine("-Вычитание(-)");
+Console.WriteLine("-Умножение(*)");
+Console.WriteLine("-Деление(:)");
+Console.WriteLine("-Возведение в степень(^)");
 Console.WriteLine("-Факториал(!).\n");
 
 while (repeat == "YES")
 {
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Введите первое число:");
+
     firstNum:
     try
     {
-        a = Convert.ToDouble(Console.ReadLine());
+        firstNumber = Convert.ToDouble(Console.ReadLine());
     }
     catch (FormatException)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("Ошибка! вы ввели не число\n");
+
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Введите первое число:");
         goto firstNum;
@@ -28,21 +75,41 @@ while (repeat == "YES")
 
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Выберите одну из доступных операций и введите оператор:");
-    string? oper = Console.ReadLine();
+    
+    inputOperation:
+    try
+    {
+        operation = Console.ReadLine();
+        if (operation != "+" && operation != "-" && operation != "*" && operation != ":" && operation != "^" && operation != "!")
+        {
+            throw new Exception();
+        }
+    }
+    catch(Exception)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Неизвестная операция.\n");
 
-    if(oper != "!")
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Выберите одну из доступных операций и введите оператор:");
+        goto inputOperation;
+    }
+
+    if(operation != "!")
     {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Введите второе число:");
+
         secondNum:
         try
         {
-            b = Convert.ToDouble(Console.ReadLine());
+            secondNumber = Convert.ToDouble(Console.ReadLine());
         }
         catch (FormatException)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Ошибка! вы ввели не число\n");
+
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Введите второе число:");
             goto secondNum;
@@ -51,60 +118,44 @@ while (repeat == "YES")
     }
 
     Console.ForegroundColor = ConsoleColor.Green;
-    if (oper == "+")
+    switch(operation)
     {
-        result = a + b;
-        Console.WriteLine("Cумма " + a + " и " + b + " равна " + result + ".\n");
+        case "+":
+            result = Addition(firstNumber, secondNumber);
+            break;
+
+        case "-":
+            result = Difference(firstNumber, secondNumber);
+            break;
+
+        case "*":
+            result = Сomposition(firstNumber, secondNumber);
+            break;
+
+        case ":":
+            try
+            {
+                result = Division(firstNumber, secondNumber);
+            }
+            catch(DivideByZeroException)
+            {
+                Console.WriteLine("Деление на 0 невозможно!\n");
+                continue;
+            }
+            break;
+
+        case "!":
+            result = Factorial(firstNumber);
+            break;
+
+        case "^":
+            result = Power(firstNumber, secondNumber);
+            break;
     }
 
-    else if (oper == "-")
-    {
-        result = a - b;
-        Console.WriteLine("Разность " + a + " и " + b + " равна " + result + ".\n");
-    }
-
-    else if (oper == "*")
-    {
-        result = a * b;
-        Console.WriteLine( a + " умножить на " + b + " равно " + result + ".\n");
-    }
-
-    else if (oper == ":")
-    {
-        if (b != 0)
-        {
-            result = a / b;
-            Console.WriteLine(+ a + " разделить на " + b + " равно " + result + ".\n");
-        }
-        else
-        {
-            Console.WriteLine("Деление на 0 невозможно!\n");
-        }
-    }
-
-    else if (oper == "!")
-    {
-        int factorial = 1;
-        for (int i = 2; i <= a; i++)
-        {
-            factorial = factorial * i;
-        }
-        Console.WriteLine("Факториал " + a + " равен " + factorial + ".\n");
-    }
-
-    else if (oper == "^")
-    {
-        result = Math.Pow(a, b);
-        Console.WriteLine(a + " в степени " + b + " равно " + result + ".\n");
-    }
-
-    else
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Неизвестный оператор.\n");
-    }
-
+    Console.WriteLine("Результат, введённого выражения: " + result + "\n");
     Console.ResetColor();
+
     Console.WriteLine("Вы хотите продолжить работу с калькулятором?\nВведите YES, в случае согласия.");
     repeat = Console.ReadLine();
     Console.WriteLine("\n");
