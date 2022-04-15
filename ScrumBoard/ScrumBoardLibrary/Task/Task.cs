@@ -1,5 +1,5 @@
 ﻿
-namespace ScrumBoardLibrary
+namespace ScrumBoardLibrary.Task
 
 {
     public class Task : ITask

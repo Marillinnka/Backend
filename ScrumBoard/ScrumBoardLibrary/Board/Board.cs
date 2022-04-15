@@ -1,5 +1,7 @@
-﻿
-namespace ScrumBoardLibrary
+﻿using ScrumBoardLibrary.Column;
+using ScrumBoardLibrary.Task;
+
+namespace ScrumBoardLibrary.Board
 {
     public class Board : IBoard
     {
@@ -11,14 +13,14 @@ namespace ScrumBoardLibrary
         string ColumnLimit = "The number of columns cannot exceed 10";
         private const int MAX_COLOUMN = 10;
 
-        private readonly List<Column> Columns;
+        private readonly List<IColumn> Columns;
         public string BoardName { get;}
         public Board(string name)
         {
             BoardName = name;
-            Columns = new List<Column>();
+            Columns = new List<IColumn>();
         }
-        public void AddColumn(Column column)
+        public void AddColumn(IColumn column)
         {
             if (Columns.Contains(column))
                 throw new Exception(ExistingColumn);
@@ -29,7 +31,7 @@ namespace ScrumBoardLibrary
             Columns.Add(column);
         }
 
-        public Column GetColumn(string columnUnicalID)
+        public IColumn GetColumn(string columnUnicalID)
         {
             for (int i = 0; i < Columns.Count; i++)
             {
@@ -39,11 +41,11 @@ namespace ScrumBoardLibrary
             throw new Exception(DefunctColumn);
         }
 
-        public List<Column> LookAllColumn()
+        public List<IColumn> LookAllColumn()
         {
             return Columns;
         }
-        public void AddTaskIntoColumn(Task task, int columnNum = 0)
+        public void AddTaskIntoColumn(ITask task, int columnNum = 0)
         {
             int columnsListSize = Columns.Count;
 
@@ -72,13 +74,13 @@ namespace ScrumBoardLibrary
             throw new Exception(DefunctTask);
         }
 
-        public Task GetTask(string taskUnicalID)
+        public ITask GetTask(string taskUnicalID)
         {
             int columnsListSize = Columns.Count;
 
             for (int i = 0; i < columnsListSize; i++)
             {
-                Task? desiredTask = Columns[i].GetTask(taskUnicalID);
+                ITask? desiredTask = Columns[i].GetTask(taskUnicalID);
 
                 if (desiredTask != null)
                     return desiredTask;
@@ -87,7 +89,7 @@ namespace ScrumBoardLibrary
         }
         public void MoveTaskBetweenColumns(string columnUnicalID, string taskUnicalID)
         {
-            Task movingTask = GetTask(taskUnicalID);
+            ITask movingTask = GetTask(taskUnicalID);
             DeleteTask(movingTask.UnicalID);
 
             AddTaskIntoColumn(movingTask, FindColumnNum(columnUnicalID));

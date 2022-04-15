@@ -1,5 +1,6 @@
-﻿
-namespace ScrumBoardLibrary
+﻿using ScrumBoardLibrary.Task;
+
+namespace ScrumBoardLibrary.Column
 {
     public class Column : IColumn
     {
@@ -7,58 +8,59 @@ namespace ScrumBoardLibrary
         public string UnicalID { get; }
         public string ColumnName { get; set; }
 
-        private readonly List<Task> Tasks;
+        private readonly List<ITask> _Tasks;
 
         public Column(string name)
         {
             ColumnName = name;
             UnicalID = Guid.NewGuid().ToString();
-            Tasks = new List<Task>();
+
+            _Tasks = new List<ITask>();
         }
 
-        public void AddTask(Task task)
+        public void AddTask(ITask task)
         {
-            if(Tasks.Contains(task))
+            if(_Tasks.Contains(task))
             {
                 throw new Exception(ExistTask);
             }
 
             else
-                Tasks.Add(task);
+                _Tasks.Add(task);
         }
 
         public bool DeleteTask(string taskUnicalID)
         {
-            int tasksListSize = Tasks.Count;
+            int tasksListSize = _Tasks.Count;
 
             for (int i = 0; i < tasksListSize; i++)
             {
-                if (taskUnicalID == Tasks[i].UnicalID)
+                if (taskUnicalID == _Tasks[i].UnicalID)
                 {
-                    Tasks.RemoveAt(i);
+                    _Tasks.RemoveAt(i);
                     return true;
                 }
             }
             return false;
         }
 
-        public Task? GetTask(string taskUnicalID)
+        public ITask? GetTask(string taskUnicalID)
         {
-            int tasksListSize = Tasks.Count;
+            int tasksListSize = _Tasks.Count;
 
             for (int i = 0; i < tasksListSize; i++)
             {
-                if (taskUnicalID == Tasks[i].UnicalID)
+                if (taskUnicalID == _Tasks[i].UnicalID)
                 {
-                    return Tasks[i];
+                    return _Tasks[i];
                 }
             }
             return null;
         }
 
-        public List<Task> LookAllTasks()
+        public List<ITask> LookAllTasks()
         {
-            return Tasks;
+            return _Tasks;
         }
     }
 }
