@@ -5,6 +5,18 @@ string? operation;
 double result = 0;
 string? repeat = "YES";
 
+void Menu()
+{
+    Console.ResetColor();
+    Console.WriteLine("Добро пожаловать в калькулятор.\nДоступные операции:");
+    Console.WriteLine("-Сложение(+)");
+    Console.WriteLine("-Вычитание(-)");
+    Console.WriteLine("-Умножение(*)");
+    Console.WriteLine("-Деление(:)");
+    Console.WriteLine("-Возведение в степень(^)");
+    Console.WriteLine("-Факториал(!).\n");
+}
+
 double Addition(double firstNumber, double secondNumber)
 {
     return firstNumber + secondNumber;
@@ -44,21 +56,12 @@ double Power(double firstNumber, double secondNumber)
     return Math.Pow(firstNumber, secondNumber);
 }
 
-Console.ResetColor();
-Console.WriteLine("Добро пожаловать в калькулятор.\nДоступные операции:");
-Console.WriteLine("-Сложение(+)");
-Console.WriteLine("-Вычитание(-)");
-Console.WriteLine("-Умножение(*)");
-Console.WriteLine("-Деление(:)");
-Console.WriteLine("-Возведение в степень(^)");
-Console.WriteLine("-Факториал(!).\n");
-
-while (repeat == "YES")
+void CreateFirstNumber()
 {
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Введите первое число:");
 
-    firstNum:
+firstNum:
     try
     {
         firstNumber = Convert.ToDouble(Console.ReadLine());
@@ -69,14 +72,18 @@ while (repeat == "YES")
         Console.WriteLine("Ошибка! вы ввели не число\n");
 
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("Введите первое число:");
+        Console.WriteLine("Повторите ввод первого числа:");
         goto firstNum;
     }
 
+}
+
+void CreateOperation()
+{
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("Выберите одну из доступных операций и введите оператор:");
-    
-    inputOperation:
+
+inputOperation:
     try
     {
         operation = Console.ReadLine();
@@ -85,7 +92,7 @@ while (repeat == "YES")
             throw new Exception();
         }
     }
-    catch(Exception)
+    catch (Exception)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("Неизвестная операция.\n");
@@ -94,13 +101,16 @@ while (repeat == "YES")
         Console.WriteLine("Выберите одну из доступных операций и введите оператор:");
         goto inputOperation;
     }
+}
 
-    if(operation != "!")
+void CreateSecondNumber()
+{
+    if (operation != "!")
     {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Введите второе число:");
 
-        secondNum:
+    secondNum:
         try
         {
             secondNumber = Convert.ToDouble(Console.ReadLine());
@@ -111,14 +121,17 @@ while (repeat == "YES")
             Console.WriteLine("Ошибка! вы ввели не число\n");
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Введите второе число:");
+            Console.WriteLine("Повторите ввод второго числа:");
             goto secondNum;
         }
 
     }
+}
 
+void ChooseOperation()
+{
     Console.ForegroundColor = ConsoleColor.Green;
-    switch(operation)
+    switch (operation)
     {
         case "+":
             result = Addition(firstNumber, secondNumber);
@@ -137,25 +150,41 @@ while (repeat == "YES")
             {
                 result = Division(firstNumber, secondNumber);
             }
-            catch(DivideByZeroException)
+            catch (DivideByZeroException)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Деление на 0 невозможно!\n");
-                continue;
+                Console.ForegroundColor = ConsoleColor.Green;
             }
             break;
 
         case "!":
             result = Factorial(firstNumber);
+            secondNumber = -1;
             break;
 
         case "^":
             result = Power(firstNumber, secondNumber);
             break;
     }
+}
 
-    Console.WriteLine("Результат, введённого выражения: " + result + "\n");
+Menu();
+
+while (repeat == "YES")
+{
+    CreateFirstNumber();
+    CreateOperation();
+    CreateSecondNumber();
+    
+    ChooseOperation();
+
+    if(secondNumber != 0 || (secondNumber == 0 && operation != ":"))
+    {
+        Console.WriteLine("Результат, введённого выражения: " + result + "\n");
+    }
+
     Console.ResetColor();
-
     Console.WriteLine("Вы хотите продолжить работу с калькулятором?\nВведите YES, в случае согласия.");
     repeat = Console.ReadLine();
     Console.WriteLine("\n");
