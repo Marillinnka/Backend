@@ -15,8 +15,10 @@ namespace ScrumBoardLibrary.Board
 
         private readonly List<IColumn> Columns;
         public string BoardName { get;}
+        public string UnicalID { get; }
         public Board(string name)
         {
+            UnicalID = Guid.NewGuid().ToString();
             BoardName = name;
             Columns = new List<IColumn>();
         }

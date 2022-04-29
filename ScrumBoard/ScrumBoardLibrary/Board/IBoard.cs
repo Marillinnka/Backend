@@ -5,6 +5,7 @@ namespace ScrumBoardLibrary.Board
 {
     public interface IBoard
     {
+        public string UnicalID { get; }
         public string BoardName { get; }
         public void AddTaskIntoColumn(ITask task, int columnNum = 0);
         public void MoveTaskBetweenColumns(string columnUnicalID, string  taskUnicalID);

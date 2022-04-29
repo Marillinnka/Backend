@@ -10,7 +10,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrumBoard", "ScrumBoard\Sc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrumBoardLibrary", "ScrumBoardLibrary\ScrumBoardLibrary.csproj", "{1248A536-DE47-4852-8CE3-0F6132302F9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumBoardTests", "ScrumBoardTests\ScrumBoardTests.csproj", "{BBC60FBF-83B9-4FD4-9589-43EBE0E477E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrumBoardTests", "ScrumBoardTests\ScrumBoardTests.csproj", "{BBC60FBF-83B9-4FD4-9589-43EBE0E477E2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1248A536-DE47-4852-8CE3-0F6132302F9D} = {1248A536-DE47-4852-8CE3-0F6132302F9D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrumBoardAPI", "ScrumBoardAPI\ScrumBoardAPI.csproj", "{D3ECC3C3-B4FA-4188-A93F-49F9CF7C5EB0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1248A536-DE47-4852-8CE3-0F6132302F9D} = {1248A536-DE47-4852-8CE3-0F6132302F9D}
 	EndProjectSection
@@ -33,6 +38,10 @@ Global
 		{BBC60FBF-83B9-4FD4-9589-43EBE0E477E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBC60FBF-83B9-4FD4-9589-43EBE0E477E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBC60FBF-83B9-4FD4-9589-43EBE0E477E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3ECC3C3-B4FA-4188-A93F-49F9CF7C5EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3ECC3C3-B4FA-4188-A93F-49F9CF7C5EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3ECC3C3-B4FA-4188-A93F-49F9CF7C5EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3ECC3C3-B4FA-4188-A93F-49F9CF7C5EB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
